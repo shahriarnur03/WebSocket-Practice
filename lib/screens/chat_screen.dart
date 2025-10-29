@@ -17,46 +17,57 @@ class ChatScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text('WebSocket Chat with GetX')),
-      body: Column(
-        children: [
-          // Messages list - Obx makes it reactive
-          Expanded(
-            child: Obx(
-              () => ListView.builder(
-                itemCount: controller.messages.length,
-                itemBuilder: (context, index) {
-                  return MessageBubble(message: controller.messages[index]);
-                },
-              ),
-            ),
-          ),
-
-          // Input area
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: textController,
-                    decoration: InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(),
-                    ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              // Messages list - Obx makes it reactive
+              Expanded(
+                child: Obx(
+                  () => ListView.builder(
+                    itemCount: controller.messages.length,
+                    itemBuilder: (context, index) {
+                      return MessageBubble(message: controller.messages[index]);
+                    },
                   ),
                 ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    controller.sendMessage(textController.text);
-                    textController.clear();
-                  },
-                  child: Text('Send'),
+              ),
+
+              // Input area
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: textController,
+                        decoration: InputDecoration(
+                          hintText: 'Type a message...',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    OutlinedButton(
+                      onPressed: () {
+                        controller.sendMessage(textController.text);
+                        textController.clear();
+                      },
+                      child: Icon(
+                        Icons.send_rounded,
+                        color: Colors.blueAccent,
+                        size: 20,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:websocket_app/models/chat_mesage.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -13,6 +14,7 @@ class MessageBubble extends StatelessWidget {
         : CrossAxisAlignment.start;
     final color = message.isMe ? Colors.blueAccent : Colors.grey[300];
     final textColor = message.isMe ? Colors.white : Colors.black87;
+    final time = message.time;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
@@ -25,8 +27,12 @@ class MessageBubble extends StatelessWidget {
               color: color,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(message.text, style: TextStyle(color: textColor)),
+            child: Text(
+              message.text.trim(),
+              style: TextStyle(color: textColor),
+            ),
           ),
+          Text(DateFormat('h:mm a').format(time)),
         ],
       ),
     );
